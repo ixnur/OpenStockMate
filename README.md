@@ -9,7 +9,13 @@ Bu proje, [mekatronik.org/forum](https://mekatronik.org/forum/) adresindeki foru
 ## Özellikler
 
 - Komponent stok yönetimi
-- ...
+- Komponent stok uyarı e-maili
+- Kayıt e-mail
+- her kullanıcının ayrı stok sayfası
+- 180 gün şifre süresi
+- 8 karakter büyü küçük harf duyarlılığı
+- aktivasyon e-maili
+  
 
 ## Kurulum
 
