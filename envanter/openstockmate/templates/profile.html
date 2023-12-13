@@ -1,0 +1,20 @@
+<!-- profile.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ user.username }}'s Profile</h2>
+
+  <h3>Stock Alerts</h3>
+  <ul>
+    {% for alert in stock_alerts %}
+      <li>{{ alert.product.name }} - Threshold: {{ alert.threshold }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Add Stock Alert</h3>
+  <form method="post" action="{% url 'add_stock_alert' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Alert</button>
+  </form>
+{% endblock %}

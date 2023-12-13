@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Stock Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Description</th>
+        <th>Manufacturer</th>
+        <th>Category</th>
+        <th>Package</th>
+        <th>Location</th>
+        <th>Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for component in components %}
+        <tr>
+          <td>{{ component.model }}</td>
+          <td>{{ component.description }}</td>
+          <td>{{ component.manufacturer.name }}</td>
+          <td>{{ component.category.name }}</td>
+          <td>{{ component.package.name }}</td>
+          <td>{{ component.location.name }}</td>
+          <td>{{ component.stock }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

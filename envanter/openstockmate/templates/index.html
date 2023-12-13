@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komponent envanter</title>
+    <style>
+        .emptyspace {
+        margin: 10px;
+        } 
+
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #242424; /* Arka planı koyu renk */
+            color: #fff; /* Yazı rengi beyaz */
+        }
+
+        header {
+            background-color: #19182c;
+            padding: 10px 0;
+            text-align: center;
+            transition: background-color 0.3s ease; 
+        }
+
+        header:hover {
+            background-color: #3d3863; /* Üzerine gelindiğinde yeni arka plan rengi */
+        }
+        nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            padding-left: auto;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .popup {
+            font-size: 12px;
+
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            max-height: 85%;
+            width: 800px;
+            height: 600px;
+            overflow-y: auto; /* Eğer içerik pop-up sığmazsa kaydırma çubukları görünsün */
+            transform: translate(-50%, -50%);
+            background-color: #6b6b6b;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            padding-left: 10px;
+            padding-right: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .popup form {
+            display: grid;
+            gap: 10px;
+            padding: 20px;
+            background-color: #2c2c2c;
+            border-radius: 5px;
+        }
+
+        .popup label {
+            display: block;
+            padding: auto;
+            font-weight: bold;
+        }
+
+        .popup input[type="text"],
+        .popup input[type="number"],
+        .popup textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #add-component-popup {
+            z-index: 999;
+        }
+
+        #close-popup {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #close-popup:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" id="open-popup">Yeni Parça Ekle</a></li>
+                <div id="stock-table-container">
+                    <form id="search-stock-form" method="GET" action="">
+                        <label for="search-stock">Stok Ara:</label>
+                        <input type="text" id="search-stock" name="search_stock">
+                        <button type="submit">Ara</button>
+                    </form>
+            </ul>
+        </nav>
+    </header>
+<div class="emptyspace"></div>
+
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Kategori</th>
+                <th>Model</th>
+                <th>Parça Numarası</th>
+                <th>Üretici</th>
+                <th>Birim Fiyat</th>
+                <th>Stok Miktarı</th>
+                <th>Stok Yeri</th>
+                <td>ohm</td>
+                <td>W</td>
+                <td>technic</td>
+                <td>picture</td>
+                <td>document</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for component in components %}
+                <tr>
+                    <td>{{ component.kategori }}</td>
+                    <td>{{ component.model }}</td>
+                    <td>{{ component.parca_no }}</td>
+                    <td>{{ component.uretici }}</td>
+                    <td>{{ component.birim_fiyat }}</td>
+                    <td>{{ component.stok_miktar }}</td>
+                    <td>{{ component.location_type }}</td>
+                    <td>{{ component.ohm }}</td>
+                    <td>{{ component.W }}</td>
+                    <td>{{ component.technical_specifications }}</td>
+                    <td>{{ component.picture_url }}</td>
+                    <td>{{ component.document_url }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+    <div id="add-component-popup" class="popup">
+        <h2>Yeni Komponent Ekle</h2>
+        <form action="{% url 'parca_ekle' %}" method="post">
+            {% csrf_token %}
+            <label for="kategori">Kategori:</label>
+            <select id="kategori" name="kategori" required>
+            <option value="">Seçiniz</option>
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% for subcategory in category.category_set.all %}
+            <option value="{{ subcategory.id }}">-- {{ subcategory.name }}</option>
+            {% endfor %}
+            {% endfor %}
+            </select><br>
+            <label for="model">Model:</label>
+            <input type="text" id="model" name="model" required><br>
+            <label for="parca_no">Parça Numarası:</label>
+            <input type="text" id="parca_no" name="parca_no" required><br>
+            <label for="uretici">Üretici:</label>
+            <input type="text" id="uretici" name="uretici" required><br>
+            <label for="birim_fiyat">Birim Fiyat:</label>
+            <input type="number" id="birim_fiyat" name="birim_fiyat" step="0.01" required><br>
+            <label for="stok_miktar">Stok Miktarı:</label>
+            <input type="number" id="stok_miktar" name="stok_miktar" required><br>
+            <label for="Stok Yeri">Stok Yeri:</label>
+            <input type="text" id="location_type" name="location_type" required><br>
+            <label for="Ohm">Direnç Ohm:</label>
+            <input type="number" id="Ohm" name="Ohm" required><br>
+            <label for="W">W:</label>
+            <input type="number" id="W" name="W" required><br>
+            <label for="teknik_ozellikler">Teknik Özellikler:</label>
+            <textarea id="teknik_ozellikler" name="teknik_ozellikler" rows="4" cols="50" required></textarea><br>
+            <label for="foto">Fotoğraf (URL):</label>
+            <input type="text" id="foto" name="foto"><br>
+            <label for="dokuman">Teknik Doküman (URL):</label>
+            <input type="text" id="dokuman" name="dokuman"><br>
+            <!-- Diğer form alanları burada yer alacak -->
+            <button type="submit">Parça Ekle</button>
+        </form>
+        <button id="close-popup">Kapat</button>
+    </div>
+    <footer>&copy;@mekatronik.org - Komponent Envanteri Uygulaması.</footer>
+    <script>
+        // JavaScript kodları burada yer alacak
+        const openPopupBtn = document.getElementById('open-popup');
+        const addComponentPopup = document.getElementById('add-component-popup');
+        const closePopupBtn = document.getElementById('close-popup');
+
+        openPopupBtn.addEventListener('click', () => {
+        addComponentPopup.style.display = 'block';
+});
+
+        closePopupBtn.addEventListener('click', () => {
+        addComponentPopup.style.display = 'none';
+});
+    </script>
+</body>
+</html>
