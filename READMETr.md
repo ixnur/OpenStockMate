@@ -21,7 +21,7 @@ Bu proje, [mekatronik.org/forum](https://mekatronik.org/forum/) adresindeki foru
 
 1. Projeyi bilgisayarınıza klonlayın.
     ```bash
-    git clone https://github.com/<github-kullanici-adi>/OpenStockMate.git
+    git clone https://github.com/CodeWizardette/OpenStockMate.git
     ```
 
 2. Proje dizinine gidin.
