@@ -61,3 +61,7 @@ This project is licensed under the [MIT License].
 ---
 
 Feel free to all enjoy
+
+
+![Figure_12](https://github.com/CodeWizardette/OpenStockMate/assets/131625021/195a7f54-4bfb-4bd2-ae7f-bdf2eeb9f77e)
+
