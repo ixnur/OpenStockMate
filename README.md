@@ -42,8 +42,8 @@ Developed by the mekatronik.org/forum community, OpenStockMate is designed to em
 4. **Create the Database and Start the Application:**
 
     ```bash
-    python manage.py migrate
-    python manage.py runserver
+    python3 manage.py migrate
+    python3 manage.py runserver
     ```
 
 5. **Open the Application in Your Browser:**
