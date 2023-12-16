@@ -4,7 +4,7 @@ OpenStockMate is an open-source and free component inventory management applicat
 
 ## About
 
-Developed by the mekatronik.org/forum community, OpenStockMate is designed to empower users in effectively managing their electronic component inventories.
+Developed by the [www.mekatronik.org/forum](https://mekatronik.org/forum) community, OpenStockMate is designed to empower users in effectively managing their electronic component inventories.
 
 ## Features
 
