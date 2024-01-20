@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% load static %}
+      {% block title %} imageUrl=<favicon class="ico"></favicon>{% endblock %}
+    </title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        font-style: normal;
+        color: rgba(255, 255, 255, 0.884);
+
+      }
+      body {
+        margin: 0;
+        align-items: center;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: rgb(24, 24, 24);
+      }
+      .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+      }
+      .Arama,
+      .proff-button,
+      .logout-button,
+      .addcomp-button,
+      .edit-button,
+      .detail-button,
+      .feedback-button,
+      .addcomp-button,
+      .search-button {
+        padding: 8px;
+        cursor: pointer;
+        color: #ffffff;
+        border: none;
+        height: 100%;
+        flex: 1;
+        margin-left: 10px;
+        border-radius: 8px;
+      }
+      .logout-button {
+        background-color: #ff1515be;
+      }
+      .proff-button {
+        background-color: #3815faea;
+      }
+      .addcomp-button {
+        background-color: #17f310e8;
+      }
+      .search-button {
+        background-color: #494949;
+        transition: background-color 0.3s ease;
+      }
+      .search-button:hover,
+      .search-button:active {
+        background-color: #999999;
+      }
+      .feedback-button {
+        background-color: #f0e119f1;
+      }
+      .edit-button {
+        background-color: #dd00b8;
+      }
+
+      .detail-button {
+        background-color: #f0730d;
+      }
+
+      .container {
+        color: #f8f9fa;
+        align-items: center;
+      }
+      header {
+        background-color: #47474788;
+        padding: 10px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #939494;
+      }
+      nav a {
+        text-decoration: none;
+        color: #1d1d1d;
+        margin: 0 10px;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 0 10px;
+        color: #f8f9fa;
+      }
+      .mt-4 {
+        margin-top: 20px;
+        color: rgba(255, 255, 255, 0.678);
+        align-items: center;
+      }
+      .text-center {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.678);
+      }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+      .table {
+        border-collapse: collapse;
+        overflow-x: auto;
+        width: 100%;
+      }
+      .table th,
+      .table td {
+        padding: 0;
+        border: 1px solid #3a3a3a;
+        text-align: left;
+        overflow: hidden;
+
+      
+      }
+      
+      .logo {
+        filter: brightness();
+        transition: filter 0.2s ease;
+      }
+      .logo:hover {
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.377));
+      }
+      .Arama {
+        color: rgb(27, 27, 27);
+      }
+      .Arama::placeholder {
+        color: black;
+      }
+      .popup {
+        display: none;
+        max-width: 900px;
+        border-radius: 20px;
+        position: fixed;
+        font-display: black;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #5c5c5c;
+        padding: 20px;
+        z-index: 1000;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .popup-content {
+        text-align: center;
+      }
+        .table-container {
+        max-width: 100%;
+
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img
+            class="logo"
+            src="/home/n/Desktop/logo.png"
+            alt="OpenStockMate Logo"
+            height="60"
+          />
+        </a>
+        <ul class="nav-links">
+          <div class="action-buttons">
+            <input
+              class="Arama"
+              type="Arama"
+              placeholder="Komponent Aramak için"
+              aria-label="Arama"
+            />
+            <button class="search-button" type="submit">Ara</button>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <button class="edit-button" id="editButton">&#9998;</button>
+            <div></div>
+            <button class="detail-button" id="detailButton">&#128712;</button>
+            <div></div>
+            <button class="feedback-button" id="feedbackButton">&#9993;</button>
+            <div></div>
+            <button class="addcomp-button" id="addcompButton">&#43;</button>
+            <div></div>
+            <button class="proff-button" id="profileButton">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-person"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
+                />
+              </svg>
+            </button>
+            <div></div>
+            <button class="logout-button" id="logoutButton">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-box-arrow-right"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+                />
+              </svg>
+            </button>
+          </div>
+        </ul>
+      </nav>
+    </header>
+    <div class="table-container">
+      <table class="table" id="productTable">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Açıklama</th>
+            <th>Üretici</th>
+            <th>Kategori</th>
+            <th>Paketi</th>
+            <th>Lokasyon</th>
+            <th>Stok Adedi</th>
+            <th>Belge Bağlantısı</th>
+            <th>Belge Türü</th>
+            <th>Lokasyon Türü</th>
+            <th>Üretici</th>
+            <th>Paket</th>
+            <th>Oluşturulma Tarihi</th>
+            <th>Güncelleme Tarihi</th>
+            <th>Belge Adı</th>
+            <th>Belge Başlığı</th>
+            <th>Belge Türü</th>
+            <th>Belge Yolu</th>
+            <th>Lokasyon Türü Adı</th>
+            <th>Üretici Adı</th>
+            <th>Paket Adı</th>
+            <th>Miktar</th>
+            <th>Maliyet</th>
+            <th>Toplam Maliyet</th>
+            <th>Tarih</th>
+            <th>Tedarikçi Adı</th>
+            <th>Kaynak Lokasyon</th>
+            <th>Hedef Lokasyon</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for component in components %}
+          <tr>
+            <td>{{ component.model }}</td>
+            <td>{{ component.description }}</td>
+            <td>{{ component.manufacturer.name }}</td>
+            <td>{{ component.category.name }}</td>
+            <td>{{ component.package.name }}</td>
+            <td>{{ component.location.name }}</td>
+            <td class="stock-cell">{{ component.stock }}</td>
+            <td>
+              {% for document_link in component.componentdocumentlink_set.all %}
+              <a
+                href="{{ document_link.document.document_path }}"
+                target="_blank"
+                >{{ document_link.document.name }}</a
+              ><br />
+              {% endfor %}
+            </td>
+            <td>{{ component.document.document_type.name }}</td>
+            <td>{{ component.location.location_type.name }}</td>
+            <td>{{ component.manufacturer.name }}</td>
+            <td>{{ component.package.name }}</td>
+            <td>{{ component.created_at }}</td>
+            <td>{{ component.updated_at }}</td>
+            <td>{{ component.document.name }}</td>
+            <td>{{ component.document.title }}</td>
+            <td>{{ component.document.document_type.name }}</td>
+            <td>{{ component.document.document_path }}</td>
+            <td>{{ component.location.location_type.name }}</td>
+            <td>{{ component.manufacturer.name }}</td>
+            <td>{{ component.package.name }}</td>
+            <td>{{ component.stockmovement.quantity }}</td>
+            <td>{{ component.purchasedetail.cost }}</td>
+            <td>{{ component.purchasedetail.total_cost }}</td>
+            <td>{{ component.purchase.date }}</td>
+            <td>{{ component.purchase.supplier.name }}</td>
+            <td>{{ component.stockmovement.source_location.name }}</td>
+            <td>{{ component.stockmovement.destination_location.name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div id="addcompPopup" class="popup">
+      <div class="popup-content">
+        <h2>{% url 'add_component' %}Yeni Komponent</h2>
+        <form id="addcompForm">
+          {% csrf_token %}
+          <label for="model">Model:</label>
+          <input type="text" id="model" name="model" required />
+          {% for model in component %}
+          <label for="description">Açıklama:</label>
+          <input type="text" id="description" name="description" required />
+          {% for description in component}
+          <label for="manufacturer">Üretici:</label>
+          <input type="text" id="manufacturer" name="manufacturer" required />
+          {% for in manufacturer in component}
+          <label for="category">Kategori:</label>
+          <input type="text" id="category" name="category" required />
+
+          <label for="package">Paket:</label>
+          <input type="text" id="package" name="package" required />
+
+          <label for="location">Lokasyon:</label>
+          <input type="text" id="location" name="location" required />
+
+          <label for="quantity">Miktar:</label>
+          <input type="number" id="quantity" name="quantity" required />
+
+          <label for="totalCost">Toplam Maliyet:</label>
+          <input type="text" id="totalCost" name="totalCost" required />
+
+          <label for="documentType">Belge Türü:</label>
+          <select id="documentType" name="documentType" required>
+            <option value="pdf">PDF</option>
+            <option value="doc">Word</option>
+            <option value="xls">Excel</option>
+          </select>
+
+          <label for="documentPath">Belge Yolu:</label>
+          <input type="text" id="documentPath" name="documentPath" required />
+
+          <label for="locationType">Lokasyon Türü Adı:</label>
+          <input type="text" id="locationType" name="locationType" required />
+
+          <label for="manufacturerName">Üretici Adı:</label>
+          <input
+            type="text"
+            id="manufacturerName"
+            name="manufacturerName"
+            required
+          />
+
+          <label for="packageName">Paket Adı:</label>
+          <input type="text" id="packageName" name="packageName" required />
+          <label for="purchaseDetails">Satın Alma Detayları:</label>
+          <textarea
+            id="purchaseDetails"
+            name="purchaseDetails"
+            rows="4"
+            cols="50"
+            required
+          ></textarea>
+
+          <label for="locationDescription">Lokasyon Açıklaması:</label>
+          <textarea
+            id="locationDescription"
+            name="locationDescription"
+            rows="4"
+            cols="50"
+            required
+          ></textarea>
+
+          <label for="additionalInfo">Ek Bilgiler:</label>
+          <textarea
+            id="additionalInfo"
+            name="additionalInfo"
+            rows="4"
+            cols="50"
+            required
+          ></textarea>
+          <label for="quantity">Miktar:</label>
+          <input type="number" id="quantity" name="quantity" required />
+
+          <label for="purchaseMethod">Satın Alma Yöntemi:</label>
+          <select id="purchaseMethod" name="purchaseMethod" required>
+            <option value="online">Online</option>
+            <option value="offline">Offline</option>
+          </select>
+
+          <label for="notes">Notlar:</label>
+          <textarea id="notes" name="notes" rows="4" cols="50"></textarea>
+
+          <button type="button" id="addcompSaveButton">Save</button>
+          <button type="button" id="addcompCancelButton">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>
+        &copy;2023@mekatronik.org - Open Stock Mate - Komponent envanter
+        uygulaması.
+      </p>
+    </footer>
+  </body>
+</html>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document
+      .getElementById("productTable")
+      .addEventListener("contextmenu", function (event) {
+        event.preventDefault(); //engel
+
+        //karar ver sağ tık
+        console.log("Sağ tıklandı");
+      });
+    var stockCells = document.querySelectorAll(".stock-cell");
+    stockCells.forEach(function (cell) {
+      var stock = parseInt(cell.textContent);
+      if (stock < 5) {
+        cell.style.backgroundColor = "red";
+      } else if (stock < 10) {
+        cell.style.backgroundColor = "yellow";
+      }
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add Component Pop-up
+    const addcompButton = document.getElementById("addcompButton");
+    const addcompPopup = document.getElementById("addcompPopup");
+    const addcompSaveButton = document.getElementById("addcompSaveButton");
+    const addcompCancelButton = document.getElementById("addcompCancelButton");
+
+    addcompButton.addEventListener("click", function () {
+      openAddcompPopup();
+    });
+
+    addcompCancelButton.addEventListener("click", function () {
+      closeAddcompPopup();
+    });
+
+    addcompSaveButton.addEventListener("click", function () {
+      saveAddcompData();
+    });
+
+    // Add Component Pop-up fonksiyonları
+    function openAddcompPopup() {
+      addcompPopup.style.display = "block";
+    }
+
+    function closeAddcompPopup() {
+      addcompPopup.style.display = "none";
+    }
+
+    function saveAddcompData() {
+      const model = document.getElementById("model").value;
+      const description = document.getElementById("description").value;
+      const manufacturer = document.getElementById("manufacturer").value;
+
+      // Gerekli işlemleri gerçekleştirin, örneğin AJAX ile sunucuya veri gönderme
+      const csrftoken = document.querySelector(
+        "[name=csrfmiddlewaretoken]"
+      ).value;
+
+      fetch("/save_component/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken,
+        },
+        body: JSON.stringify({
+          model: model,
+          description: description,
+          manufacturer: manufacturer,
+          // Diğer giriş alanlarına göre ekleme yapın
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Sunucudan gelen cevabı işleyin (isteğe bağlı)
+          console.log(data);
+
+          // Pop-up'ı kapat
+          closeAddcompPopup();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    // Diğer pop-up'lar ve işlemlerini buraya ekleyebilirsiniz.
+  });
+</script>

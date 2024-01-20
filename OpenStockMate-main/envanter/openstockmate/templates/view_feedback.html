@@ -1,0 +1,11 @@
+<!-- view_feedback.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Feedback List</h2>
+  <ul>
+    {% for feedback in feedback_list %}
+      <li>{{ feedback.content }} - {{ feedback.user.username }} ({{ feedback.created_at|date:"F d, Y H:i" }})</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
