@@ -1,0 +1,28 @@
+
+<div id="addComponentModel" class="model fade" role="dialog">
+    <div class="model-dialog">
+        <div class="model-content">
+            <div class="model-header">
+                <h4 class="model-title">Add Component</h4>
+                <button type="button" class="close" data-dismiss="model">&times;</button>
+            </div>
+            <div class="model-body">
+                <form method="post" action="{% url 'add_component' %}" id="addComponentForm">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Add Component</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#add-component-btn').click(function () {
+            $('#add_component_model').modal('show');
+        });
+    });
+</script>

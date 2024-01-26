@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <title>Kayıt Sayfası</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            background: url('/home/n/Desktop/1.jpg') no-repeat center center fixed; 
+            background-size: cover;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(242, 242, 242, 0.863);
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 500px;
+        }
+        .form-title {
+            font-size: 18px;
+            font-weight: italic;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            position: relative;
+        }
+        .show-password-icon {
+            display: inline;
+            margin: right;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        .form-group input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #555;
+        }
+        .form-group .form-text {
+            font-size: 14px;
+            color: #888;
+            margin-top: 6px;
+        }
+        .password-policy {
+            font-size: 12px;
+            color: #555;
+            margin-top: 6px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                <h2 class="form-title">Yeni Kullanıcı Oluşturma</h2>
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="first_name">Adınız:</label>
+                    <input type="text" id="first_name" name="first_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">Şehir:</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Yaşınız:</label>
+                    <input type="text" id="age" name="age" pattern="\d+" required>
+                </div>
+                <div class="form-group">
+                    <label for="occupation">Meslek:</label>
+                    <input type="text" id="occupation" name="occupation" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta Adresi:</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error-message" id="email-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="password1">Şifre:</label>
+                    <input type="password" id="password1" name="password1" required>
+                    <span class="show-password-icon" onclick="togglePasswordVisibility('password1')">&#128584;</span>
+                    <p class="password-policy">Şifreniz en az 8 karakter uzunluğunda olmalıdır ve en az bir büyük harf, bir küçük harf ve bir sayı içermelidir.</p>
+                </div>
+                <div class="form-group">
+                    <label for="password2">Şifre Tekrar:</label>
+                    <input type="password" id="password2" name="password2" required>
+                    <span class="show-password-icon" onclick="togglePasswordVisibility('password2')">&#128584;</span>
+                    <span class="error-message" id="password-error"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Kayıt Ol">
+                    <p class="form-text">Zaten bir hesabınız var mı? <a href="{% url 'login' %}">Giriş yapın</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility(inputId) {
+            var passwordInput = document.getElementById(inputId);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+
+        document.getElementById('email').addEventListener('input', function() {
+            var emailInput = this.value;
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(emailInput)) {
+                document.getElementById('email-error').innerText = 'Geçersiz e-posta adresi.';
+            } else {
+                document.getElementById('email-error').innerText = '';
+            }
+        });
+
+        document.getElementById('password2').addEventListener('input', function() {
+            var password1 = document.getElementById('password1').value;
+            var password2 = this.value;
+
+            if (password1 !== password2) {
+                document.getElementById('password-error').innerText = 'Şifreler eşleşmiyor.';
+            } else {
+                document.getElementById('password-error').innerText = '';
+            }
+        });
+    </script>
+</body>
+</html>

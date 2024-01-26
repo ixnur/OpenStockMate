@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OpenStockMate - Component Stock Management{% endblock %}</title>
+    <!-- Bootstrap CSS dosyasını ekleyebilirsiniz -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-Y3V2y0kP9S+5XebdWMLceV8tN5VQ7TOqP4Ep9PB8JF2RSQK8M+a9L3LU1SgJv1Lk" crossorigin="anonymous">
+    <!-- Projeye özgü CSS dosyasını ekleyebilirsiniz -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="bg-primary text-white text-center py-4">
+        <div class="container">
+            <h1 class="font-weight-bold">OpenStockMate</h1>
+            <p class="lead">Component Stock Management System</p>
+        </div>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+            <!-- Diğer sayfa linkleri buraya eklenebilir -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <!-- Giriş yapmış kullanıcı için çıkış yap linki -->
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <!-- Giriş yapmamış kullanıcı için giriş yap ve kayıt ol linkleri -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-4">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="text-center py-3 bg-dark text-white">
+        <div class="container">
+            <p>&copy; {% now 'Y' %} OpenStockMate. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS dosyasını ekleyebilirsiniz -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-GLhlTQ8iKu49A7ZL9YxNfrC8R+Op5nD5P5ik0WdI1I7US3U5z3lM5nBZXY5dUJQ" crossorigin="anonymous"></script>
+    <!-- Projeye özgü JavaScript dosyasını ekleyebilirsiniz -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
