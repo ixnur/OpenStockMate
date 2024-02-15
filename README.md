@@ -62,8 +62,6 @@ This project is licensed under the [MIT License].
 ---
 
 Feel free to all enjoy
-NOW
-https://raw.githubusercontent.com/ixnur/OpenStockMate/main/models.png?token=GHSAT0AAAAAACOISQLI3LXW2KMOOZZOQRHQZOOPRJA
 
-![Figure_12](https://github.com/CodeWizardette/OpenStockMate/assets/131625021/195a7f54-4bfb-4bd2-ae7f-bdf2eeb9f77e)
-
+NOW MODELS
+https://github.com/ixnur/OpenStockMate/blob/main/models.png
