@@ -16,6 +16,7 @@ Developed by the [www.mekatronik.org/forum](https://mekatronik.org/forum) commun
   - 180 days password expiration
   - 8-character case-sensitive requirement
   - Activation email for added security
+  
 
 ## Installation
 
@@ -61,7 +62,8 @@ This project is licensed under the [MIT License].
 ---
 
 Feel free to all enjoy
-
+NOW
+https://raw.githubusercontent.com/ixnur/OpenStockMate/main/models.png?token=GHSAT0AAAAAACOISQLI3LXW2KMOOZZOQRHQZOOPRJA
 
 ![Figure_12](https://github.com/CodeWizardette/OpenStockMate/assets/131625021/195a7f54-4bfb-4bd2-ae7f-bdf2eeb9f77e)
 
